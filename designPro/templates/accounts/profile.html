@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+<p>Добро пожаловать, {{ request.user.username }}!</p>
+<a href="">Создать заявку</a>
+<h2>Мои заявки</h2>
+    <ul>
+        {% for request in requests %}
+            <li>
+                <h3>{{ request.title }}</h3>
+                <p>{{ request.description }}</p>
+                <img src="{{request.image.url}}" width="300px" height="250px">
+                <p>Категории:
+                    {{ request.category }}
+                </p>
+                {% if request.status == 'New' %}
+                    <a href="{% url 'accounts:delete_request' request.id %}">Удалить</a>
+                {% else %}
+                <p>Вы не можете удалить заявку, статус которой был изменен на "Принято в работу" или "Выполнено"</p>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>У вас нет заявок.</li>
+        {% endfor %}
+    </ul>
+
+{% else %}
+<p>Извините, вы не вошли в свой аккаунт!</p>
+
+{% endif %}
+
+{% endblock %}
+

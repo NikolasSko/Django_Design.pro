@@ -10,7 +10,7 @@ class Index(View):
 
 class Login(View):
     def get(self, request):
-        return render(request, 'registration/login.html')
+        return render(request, 'accounts/login.html')
 
 def register(request):
     if request.method == "POST":
@@ -19,7 +19,8 @@ def register(request):
             user = form.save(commit=False)  # создание объекта без сохранения в БД
             user.set_password(form.cleaned_data['password'])
             user.save()
-            return render(request, 'registration/registration_done.html')
+            return render(request, 'accounts/registration_done.html')
     else:
         form = RegisterUserForm()
-    return render(request, 'registration/registration.html', {'form': form})
+    return render(request, 'accounts/registration.html', {'form': form})
+
