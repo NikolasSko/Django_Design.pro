@@ -2,14 +2,14 @@
 
 {% block content %}
 
-    <h3>Заявки</h3>
+    <h1 class="index-title">Заявки</h1>
 
     {% for request in request_list %}
-        <div class="block">
-            <h3>{{request.name}}</h3>
+        <div class="requests">
+            <h5 class="index-title">{{request.name}}</h5>
             <p>{{request.category}}</p>
             <p>{{request.description}}</p>
-            <img src="" width="300px" height="250px">
+            <img src="{{request.image.url}}" width="350px" height="250px">
             <p>{{request.date}}</p>
         </div>
     {% endfor %}
