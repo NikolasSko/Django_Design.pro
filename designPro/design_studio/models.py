@@ -18,7 +18,6 @@ class Request(models.Model):
     ]
     status = models.CharField(max_length=254, verbose_name='Статус', choices=CATEGORY_STATUS, default='New')
     date = models.DateTimeField('Дата публикации')
-    approval = models.BooleanField('Согласие на обработку персональных данных')
 
     def __str__(self):
         return f'{self.name} {self.date}'
