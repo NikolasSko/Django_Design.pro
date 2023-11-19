@@ -1,13 +1,20 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=200, unique=True)
+
+    def __str__(self):
+        return f'{self.name}'
+
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
 
 class Request(models.Model):
-    CATEGORY_CATEGORY = [
-        ('2D', '2D-дизайн'),
-        ('3D', '3D-дизайн'),
-        ('not-stated', 'не известно')
-    ]
-    category = models.CharField(max_length=254, verbose_name='Категория', choices=CATEGORY_CATEGORY, default='not-stated')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, default= "" )
     name = models.CharField('Название заявки', max_length=100)
     description = models.TextField('Описание заявки')
     image = models.ImageField('Изображение помещения', upload_to='image/%Y')
@@ -17,7 +24,8 @@ class Request(models.Model):
         ('employed', 'принятая в работу')
     ]
     status = models.CharField(max_length=254, verbose_name='Статус', choices=CATEGORY_STATUS, default='New')
-    date = models.DateTimeField('Дата публикации')
+    date = models.DateField('Дата публикации', default='17-09-2004')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return f'{self.name} {self.date}'

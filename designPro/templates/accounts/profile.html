@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 
+{% block title %} Профиль {% endblock %}
+
 {% block content %}
 
 {% if user.is_authenticated %}
 <p>Добро пожаловать, {{ request.user.username }}!</p>
-<a href="">Создать заявку</a>
+<a href="{% url 'create_request' %}">Создать заявку</a>
 <h2>Мои заявки</h2>
     <ul>
         {% for request in requests %}
@@ -16,7 +18,7 @@
                     {{ request.category }}
                 </p>
                 {% if request.status == 'New' %}
-                    <a href="{% url 'accounts:delete_request' request.id %}">Удалить</a>
+                    <a href="{% url 'delete_request' request.id %}">Удалить</a>
                 {% else %}
                 <p>Вы не можете удалить заявку, статус которой был изменен на "Принято в работу" или "Выполнено"</p>
                 {% endif %}
