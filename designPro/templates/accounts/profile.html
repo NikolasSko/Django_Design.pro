@@ -8,26 +8,19 @@
 <p>Добро пожаловать, {{ request.user.username }}!</p>
 <a href="{% url 'create_request' %}">Создать заявку</a>
 <h2>Мои заявки</h2>
-    <ul>
-        {% for request in requests %}
+        <ul>
+        {% for request in posts %}
             <li>
-                <h3>{{ request.title }}</h3>
+                <h3>{{ request.name }}</h3>
                 <p>{{ request.description }}</p>
-                <img src="{{request.image.url}}" width="300px" height="250px">
+                <img src="{{ request.image.url }}" alt="{{ request.title }}" width="300px" height="250px">
                 <p>Категории:
                     {{ request.category }}
                 </p>
-                {% if request.status == 'New' %}
-                    <a href="{% url 'delete_request' request.id %}">Удалить</a>
-                {% else %}
-                <p>Вы не можете удалить заявку, статус которой был изменен на "Принято в работу" или "Выполнено"</p>
-                {% endif %}
-            </li>
         {% empty %}
             <li>У вас нет заявок.</li>
         {% endfor %}
     </ul>
-
 {% else %}
 <p>Извините, вы не вошли в свой аккаунт!</p>
 

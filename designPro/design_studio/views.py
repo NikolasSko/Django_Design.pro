@@ -12,9 +12,19 @@ class Index(View):
         requests = Request.objects.all().order_by('-date')[:4]
         return render(request, 'index.html', {'request_list': requests})
 
-class Profile(View):
-    def get(self, request):
-        return render(request, 'accounts/profile.html')
+
+def Profile(request):
+    user = request.user  # Получаем авторизованного пользователя
+    posts = Request.objects.filter(author=user)  # Фильтруем записи, где автор равен пользователю
+
+    context = {
+        'posts': posts
+    }
+    return render(request, 'accounts/profile.html', context)
+
+# class Profile(View):
+#     def get(self, request):
+#         return render(request, 'accounts/profile.html')
 
 
 class CreateRequestView(LoginRequiredMixin, CreateView):
@@ -34,6 +44,8 @@ class CreateRequestView(LoginRequiredMixin, CreateView):
 def form_valid(self, form):
     form.instance.user = self.request.user
     return super().form_valid(form)
+
+
 
 
 

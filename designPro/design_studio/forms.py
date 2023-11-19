@@ -17,6 +17,6 @@ class RequestForm(ModelForm):
             }),
             'date': DateTimeInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Дата заявки'
+                'placeholder': 'Дата заявки(YYYY-MM-DD)'
             })
         }
