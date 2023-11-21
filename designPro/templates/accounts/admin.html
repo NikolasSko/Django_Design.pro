@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %} Панель администратора {% endblock %}
+
+{% block content %}
+    {% if user.is_staff %}
+        <h1>Панель администратора</h1>
+
+
+    {% else %}
+        <h1>Доступ к данной странице строго ограничен!</h1>
+    {% endif %}
+
+{% endblock %}

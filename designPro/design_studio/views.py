@@ -58,7 +58,8 @@ class DeleteRequest(DeleteView):
     template_name = 'request/delete_request.html'
 
 
-
+def adminPanel(request):
+    return render(request, 'accounts/admin.html')
 
 
 

@@ -9,4 +9,5 @@ urlpatterns = [
     path('<int:pk>', views.DetailRequest.as_view(), name='detail_request'),
     path('<int:pk>/update', views.UpdateRequest.as_view(), name='update_request'),
     path('request/<int:pk>/delete', views.DeleteRequest.as_view(), name='delete_request'),
+    path('admin/', views.adminPanel, name='admin'),
 ]
