@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.base import View
 from .forms import RegisterUserForm
+from django.contrib.auth import logout
+
 
 class Login(View):
     def get(self, request):
@@ -17,4 +19,8 @@ def register(request):
     else:
         form = RegisterUserForm()
     return render(request, 'accounts/registration.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('index')
 

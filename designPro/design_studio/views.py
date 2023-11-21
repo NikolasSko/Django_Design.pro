@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic.base import View
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Request
@@ -10,7 +10,8 @@ from .forms import RequestForm
 class Index(View):
     def get(self, request):
         requests = Request.objects.all().order_by('-date')[:4]
-        return render(request, 'index.html', {'request_list': requests})
+        progress_status = Request.objects.filter(status='employed').count()
+        return render(request, 'index.html', {'request_list': requests, 'progress_status': progress_status})
 
 
 def Profile(request):
@@ -22,14 +23,10 @@ def Profile(request):
     }
     return render(request, 'accounts/profile.html', context)
 
-# class Profile(View):
-#     def get(self, request):
-#         return render(request, 'accounts/profile.html')
-
 
 class CreateRequestView(LoginRequiredMixin, CreateView):
     model = Request
-    fields = '__all__'
+    fields = ('name', 'description', 'category', 'image')
     template_name = 'accounts/create_request.html'
 
     def form_valid(self, form):
@@ -44,6 +41,22 @@ class CreateRequestView(LoginRequiredMixin, CreateView):
 def form_valid(self, form):
     form.instance.user = self.request.user
     return super().form_valid(form)
+
+class DetailRequest(DetailView):
+    model = Request
+    template_name = 'request/detail_request.html'
+    context_object_name = 'request'
+
+class UpdateRequest(UpdateView):
+    model = Request
+    template_name = 'accounts/create_request.html'
+    fields = ('name', 'description', 'category', 'image')
+
+class DeleteRequest(DeleteView):
+    model = Request
+    success_url = '/profile'
+    template_name = 'request/delete_request.html'
+
 
 
 

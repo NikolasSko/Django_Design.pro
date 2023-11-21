@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 class Category(models.Model):
@@ -24,11 +25,14 @@ class Request(models.Model):
         ('employed', 'принятая в работу')
     ]
     status = models.CharField(max_length=254, verbose_name='Статус', choices=CATEGORY_STATUS, default='New')
-    date = models.DateField('Дата публикации', default='17-09-2004')
+    date = models.DateTimeField('Дата публикации', default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return f'{self.name} {self.date}'
+
+    def get_absolute_url(self):
+        return f'/request/{self.id}'
 
     class Meta:
         verbose_name = 'Заявка'

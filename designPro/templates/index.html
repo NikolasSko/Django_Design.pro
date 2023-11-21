@@ -4,15 +4,16 @@
 
 {% block content %}
 
-    <h1 class="index-title">Заявки</h1>
+    <h1 class="index-title">Главная страница</h1>
+    <p>Количество заявок, находящихся в статусе «Принято в работу»: {{ progress_status }}</p>
 
     {% for request in request_list%}
         <div class="requests">
             <h5 class="index-title">{{request.name}}</h5>
             <p>{{request.category}}</p>
-            <p>{{request.description}}</p>
             <img src="{{request.image.url}}" width="350px" height="250px">
-            <p>{{request.date}}</p>
+            <p>{{request.status}}</p>
+            <a href="{% url 'detail_request' request.id %}" class="btn btn-warning">Подробнее</a>
         </div>
     {% endfor %}
 {% endblock %}

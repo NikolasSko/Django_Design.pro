@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %} {{ request.name }} {% endblock %}
+
+{% block content %}
+    <div class="features">
+        <h1>{{ request.name }}</h1>
+        <img src="{{request.image.url}}" width="350px" height="250px">
+        <p>{{ request.description }}</p>
+                <p>{{ request.date }}</p>
+    </div>
+{% endblock %}

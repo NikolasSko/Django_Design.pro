@@ -17,6 +17,9 @@
                 <p>Категории:
                     {{ request.category }}
                 </p>
+                <a href="{% url 'detail_request' request.id %}" class="btn btn-success">Подробнее</a>
+                <a href="{% url 'update_request' request.id %}" class="btn btn-warning">Изменить</a>
+                <a href="{% url 'delete_request' request.id %}" class="btn btn-danger">Удалить</a>
         {% empty %}
             <li>У вас нет заявок.</li>
         {% endfor %}
