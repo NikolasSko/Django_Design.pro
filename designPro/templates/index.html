@@ -8,6 +8,15 @@
     <p>Количество заявок, находящихся в статусе «Принято в работу»: {{ progress_status }}</p>
 
     {% for request in request_list%}
+        <form method="get">
+            <select name="status">
+                <option value="all">Все</option>
+                <option value="New">Новая</option>
+                <option value="employed">Принято в работу</option>
+                <option value="Done">Выполнено</option>
+            </select>
+            <input type="submit" value="Фильтровать">
+        </form>
         <div class="requests">
             <h5 class="index-title">{{request.name}}</h5>
             <p>{{request.category}}</p>

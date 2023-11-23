@@ -13,6 +13,12 @@ class Index(View):
         progress_status = Request.objects.filter(status='employed').count()
         return render(request, 'index.html', {'request_list': requests, 'progress_status': progress_status})
 
+    def get_queryset(self):
+        status = self.request.GET.get('status', 'all')
+        if status != 'all':
+            return Request.objects.filter(status=status)
+        return Request.objects.all()
+
 
 def Profile(request):
     user = request.user  # Получаем авторизованного пользователя
