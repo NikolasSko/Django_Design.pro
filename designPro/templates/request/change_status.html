@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %} Изменение категории {% endblock %}
+
+{% block content %}
+  <h1>Изменить статус заявки {{ request.name }}</h1>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Изменить статус</button>
+  </form>
+  <a href="{% url 'profile' %}">Назад</a>
+{% endblock %}

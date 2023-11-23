@@ -11,6 +11,7 @@ urlpatterns = [
     path('request/<int:pk>/delete', views.DeleteRequest.as_view(), name='delete_request'),
     path('admin/', views.AdminPanel.as_view(), name='admin'),
     path('request/create_category/', views.CreateCategoryView.as_view(), name='create_category'),
-    # path('request/<int:pk>/delete_category', views.DeleteCategory.as_view(), name='delete_category'),
-    path('request/delete_category/<int:category_id>/', views.delete_category, name='delete_category'),
+    path('request/<int:category_id>/delete_category', views.delete_category, name='delete_category'),
+    path('request/<int:pk>/change_status/', views.ChangeStatusView.as_view(),
+         name='change_status'),
 ]

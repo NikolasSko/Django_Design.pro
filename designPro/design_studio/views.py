@@ -4,7 +4,7 @@ from django.views.generic import CreateView, DetailView, UpdateView, DeleteView,
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Request, Category
-from .forms import RequestForm, CategoryForm
+from .forms import RequestForm, CategoryForm, ChangeStatusForm
 
 
 class Index(View):
@@ -96,7 +96,28 @@ def delete_category(request, category_id):
         return redirect('admin')  # перенаправить пользователя на страницу со списком категорий
     return render(request, 'request/delete_category.html', {'category': category})
 
+class ChangeStatusView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Request
+    form_class = ChangeStatusForm
+    template_name = 'request/change_status.html'
+    success_url = '/admin'
 
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        print(self.request.FILES)
+        form = ChangeStatusForm(self.request.POST, self.request.FILES, instance=self.object)
+        form.save()
+        return super().form_valid(form)
 
 
 
