@@ -9,5 +9,8 @@ urlpatterns = [
     path('<int:pk>', views.DetailRequest.as_view(), name='detail_request'),
     path('<int:pk>/update', views.UpdateRequest.as_view(), name='update_request'),
     path('request/<int:pk>/delete', views.DeleteRequest.as_view(), name='delete_request'),
-    path('admin/', views.adminPanel, name='admin'),
+    path('admin/', views.AdminPanel.as_view(), name='admin'),
+    path('request/create_category/', views.CreateCategoryView.as_view(), name='create_category'),
+    # path('request/<int:pk>/delete_category', views.DeleteCategory.as_view(), name='delete_category'),
+    path('request/delete_category/<int:category_id>/', views.delete_category, name='delete_category'),
 ]

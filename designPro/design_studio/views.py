@@ -1,10 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView
 from django.urls import reverse
-from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Request
-from .forms import RequestForm
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from .models import Request, Category
+from .forms import RequestForm, CategoryForm
 
 
 class Index(View):
@@ -49,7 +49,7 @@ class DetailRequest(DetailView):
 
 class UpdateRequest(UpdateView):
     model = Request
-    template_name = 'accounts/create_request.html'
+    template_name = 'accounts/create_category.html'
     fields = ('name', 'description', 'category', 'image')
 
 class DeleteRequest(DeleteView):
@@ -58,8 +58,45 @@ class DeleteRequest(DeleteView):
     template_name = 'request/delete_request.html'
 
 
-def adminPanel(request):
-    return render(request, 'accounts/admin.html')
+class AdminPanel(ListView):
+    model = Request
+    template_name = 'accounts/admin.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["categories"] = Category.objects.all()
+        return context
+
+
+def CreateCategory(request):
+    form = CategoryForm(request.POST)
+    template_name = 'accounts/create_category.html'
+    if form.is_valid():
+        form.save()
+        return redirect('admin')
+
+    return render(request, 'accounts/create_category.html', {'form': form})
+
+class CreateCategoryView(LoginRequiredMixin, CreateView):
+    model = Category
+    fields = ('name_category',)
+    template_name = 'accounts/create_category.html'
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('admin')
+
+def delete_category(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+    if request.method == 'POST':
+        category.delete()
+        return redirect('admin')  # перенаправить пользователя на страницу со списком категорий
+    return render(request, 'request/delete_category.html', {'category': category})
+
+
 
 
 

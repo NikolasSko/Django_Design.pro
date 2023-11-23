@@ -5,7 +5,14 @@
 {% block content %}
     {% if user.is_staff %}
         <h1>Панель администратора</h1>
+        <a href="{% url 'create_category' %}">Создать новую категорию</a>
 
+        {% for category in categories %}
+            <div>
+                <h2>{{ category.name_category }}</h2>
+                <a href="{% url 'delete_category' category.id %}">Удалить категорию</a>
+            </div>
+        {% endfor %}
 
     {% else %}
         <h1>Доступ к данной странице строго ограничен!</h1>

@@ -5,17 +5,17 @@ from django.utils import timezone
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=200, unique=True)
+    name_category = models.CharField('Название категории', max_length=200, unique=True)
 
     def __str__(self):
-        return f'{self.name}'
+        return f'{self.name_category}'
 
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
 
 class Request(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, default= "" )
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория', default= "" )
     name = models.CharField('Название заявки', max_length=100)
     description = models.TextField('Описание заявки')
     image = models.ImageField('Изображение помещения', upload_to='image/%Y')
@@ -24,7 +24,7 @@ class Request(models.Model):
         ('Done', 'выполненная'),
         ('employed', 'принятая в работу')
     ]
-    status = models.CharField(max_length=254, verbose_name='Статус', choices=CATEGORY_STATUS, default='New')
+    status = models.CharField('Статус', max_length=254, choices=CATEGORY_STATUS, default='New')
     date = models.DateTimeField('Дата публикации', default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
